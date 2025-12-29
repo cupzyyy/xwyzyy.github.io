@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyoUndang - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <style>
+        /* Admin Specific Styles */
+        .admin-container {
+            min-height: 100vh;
+            background: var(--light);
+        }
+        
+        /* Admin Header */
+        .admin-header {
+            background: white;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .admin-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .admin-logo i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .admin-logo h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .admin-logo span {
+            color: var(--primary);
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Admin Navigation */
+        .admin-nav {
+            background: white;
+            margin: 20px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .admin-nav-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            overflow-x: auto;
+        }
+        
+        .admin-nav-item {
+            padding: 15px 25px;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        .admin-nav-item:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        .admin-nav-item.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            background: var(--light);
+        }
+        
+        /* Admin Content */
+        .admin-content {
+            padding: 0 20px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .admin-section {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        /* Stats Grid */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .admin-stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .admin-stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .table-search {
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius-sm);
+            width: 250px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: var(--light);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            vertical-align: middle;
+        }
+        
+        tr:hover {
+            background: var(--light);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .action-btn.edit {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+        
+        .action-btn.edit:hover {
+            background: var(--info);
+            color: white;
+        }
+        
+        .action-btn.delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .action-btn.delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .action-btn.approve {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .action-btn.approve:hover {
+            background: var(--success);
+            color: white;
+        }
+        
+        .action-btn.reject {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .action-btn.reject:hover {
+            background: var(--warning);
+            color: white;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-failed {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Settings Form */
+        .settings-form {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-nav-list {
+                flex-direction: column;
+            }
+            
+            .admin-nav-item {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+            }
+            
+            .admin-nav-item.active {
+                border-left-color: var(--primary);
+            }
+            
+            .table-search {
+                width: 100%;
+                margin-top: 10px;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <div class="admin-header-content">
+                <div class="admin-logo">
+                    <i class="fas fa-crown"></i>
+                    <div>
+                        <h1>Ayo<span>Undang</span> Admin</h1>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin: 0;">Dashboard Administrator</p>
+                    </div>
+                </div>
+                <div class="admin-actions">
+                    <button class="btn btn-outline" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-danger" onclick="adminLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin Navigation -->
+        <div class="admin-nav">
+            <ul class="admin-nav-list">
+                <li class="admin-nav-item active" data-section="dashboard">Dashboard</li>
+                <li class="admin-nav-item" data-section="users">Pengguna</li>
+                <li class="admin-nav-item" data-section="withdrawals">Withdrawals</li>
+                <li class="admin-nav-item" data-section="settings">Pengaturan</li>
+            </ul>
+        </div>
+        
+        <!-- Admin Content -->
+        <div class="admin-content">
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="admin-section active">
+                <div class="admin-stats">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-value" id="totalUsersCount">0</div>
+                        <div class="admin-stat-label">Total Pengguna</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-value" id="totalWithdrawalsCount">0</div>
+                        <div class="admin-stat-label">Total Withdrawal</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-value">Rp <span id="totalPayoutsAmount">0</span></div>
+                        <div class="admin-stat-label">Total Payout</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-value" id="pendingWithdrawalsCount">0</div>
+                        <div class="admin-stat-label">Pending Withdrawal</div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Aktivitas Terbaru</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Pengguna</th>
+                                <th>Aktivitas</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentActivitiesTable">
+                            <!-- Activities will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Withdrawal Pending</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Pengguna</th>
+                                <th>Jumlah</th>
+                                <th>E-Wallet</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingWithdrawalsTable">
+                            <!-- Pending withdrawals will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Users Section -->
+            <div id="usersSection" class="admin-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Daftar Pengguna</h3>
+                        <input type="text" class="table-search" placeholder="Cari pengguna..." onkeyup="searchUsers(this.value)">
+                        <button class="btn btn-primary" onclick="openAddUserModal()">
+                            <i class="fas fa-user-plus"></i> Tambah Pengguna
+                        </button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Telepon</th>
+                                <th>Username</th>
+                                <th>Saldo</th>
+                                <th>Referral</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Withdrawals Section -->
+            <div id="withdrawalsSection" class="admin-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 class="table-title">Riwayat Withdrawal</h3>
+                        <input type="text" class="table-search" placeholder="Cari withdrawal..." onkeyup="searchWithdrawals(this.value)">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Pengguna</th>
+                                <th>Jumlah</th>
+                                <th>E-Wallet</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="withdrawalsTable">
+                            <!-- Withdrawals will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Settings Section -->
+            <div id="settingsSection" class="admin-section">
+                <div class="settings-form">
+                    <h3 style="margin-bottom: 25px; color: var(--dark);">Pengaturan Aplikasi</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Hadiah Per Referral (Rp)</label>
+                            <input type="number" id="referralReward" class="form-control" value="800">
+                            <p class="form-helper">Jumlah hadiah untuk setiap teman yang berhasil diundang</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Minimum Withdrawal (Rp)</label>
+                            <input type="number" id="minWithdrawal" class="form-control" value="200">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Maksimum Withdrawal (Rp)</label>
+                            <input type="number" id="maxWithdrawal" class="form-control" value="30000">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Kontak Email</label>
+                            <input type="email" id="contactEmail" class="form-control" placeholder="support@ayoundang.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Teks Modal Welcome</label>
+                        <textarea id="modalText" class="form-control" rows="4" placeholder="Masukkan teks yang akan ditampilkan di modal welcome">Selamat datang di AyoUndang! Undang teman Anda dan dapatkan hadiah uang tunai. Setiap teman yang berhasil Anda undang akan memberi Anda Rp800 langsung ke saldo.</textarea>
+                        <p class="form-helper">Teks ini akan ditampilkan saat pengguna pertama kali login</p>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Simpan Pengaturan
+                    </button>
+                </div>
+                
+                <div class="settings-form">
+                    <h3 style="margin-bottom: 25px; color: var(--dark);">Tambah Saldo ke Pengguna</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Pilih Pengguna</label>
+                            <select id="userSelect" class="form-control">
+                                <option value="">-- Pilih Pengguna --</option>
+                                <!-- Users will be loaded here -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Jumlah Saldo (Rp)</label>
+                            <input type="number" id="addBalanceAmount" class="form-control" placeholder="Masukkan jumlah saldo">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Keterangan (Opsional)</label>
+                        <input type="text" id="addBalanceNote" class="form-control" placeholder="Contoh: Bonus referral, komisi, dll.">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="addUserBalance()">
+                        <i class="fas fa-plus-circle"></i> Tambah Saldo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Pengguna Baru</h3>
+                <button class="modal-close" onclick="closeModal('addUserModal')">&times;</button>
+            </div>
+            <div style="padding: 20px 0;">
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" id="newUserName" class="form-control" placeholder="Masukkan nama lengkap">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon</label>
+                    <input type="tel" id="newUserPhone" class="form-control" placeholder="081234567890">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="newUserUsername" class="form-control" placeholder="Buat username unik">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="newUserPassword" class="form-control" placeholder="Buat password">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Saldo Awal (Rp)</label>
+                    <input type="number" id="newUserBalance" class="form-control" value="0">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-outline btn-block" onclick="closeModal('addUserModal')">
+                    Batal
+                </button>
+                <button class="btn btn-primary btn-block" onclick="saveNewUser()">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Pengguna</h3>
+                <button class="modal-close" onclick="closeModal('editUserModal')">&times;</button>
+            </div>
+            <div style="padding: 20px 0;">
+                <input type="hidden" id="editUserId">
+                
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" id="editUserName" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon</label>
+                    <input type="tel" id="editUserPhone" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="editUserUsername" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password (Kosongkan jika tidak diubah)</label>
+                    <input type="password" id="editUserPassword" class="form-control" placeholder="Kosongkan jika tidak diubah">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Saldo (Rp)</label>
+                    <input type="number" id="editUserBalance" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Jumlah Referral</label>
+                    <input type="number" id="editUserReferrals" class="form-control">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-danger btn-block" onclick="deleteUser()">
+                    <i class="fas fa-trash"></i> Hapus
+                </button>
+                <button class="btn btn-primary btn-block" onclick="updateUser()">
+                    <i class="fas fa-save"></i> Simpan Perubahan
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Withdrawal Detail Modal -->
+    <div id="withdrawalDetailModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Detail Withdrawal</h3>
+                <button class="modal-close" onclick="closeModal('withdrawalDetailModal')">&times;</button>
+            </div>
+            <div style="padding: 20px 0;">
+                <input type="hidden" id="detailWithdrawalId">
+                
+                <div style="margin-bottom: 25px;">
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Informasi Pengguna</h4>
+                    <p style="margin: 5px 0;"><strong>Nama:</strong> <span id="detailUserName"></span></p>
+                    <p style="margin: 5px 0;"><strong>Telepon:</strong> <span id="detailUserPhone"></span></p>
+                    <p style="margin: 5px 0;"><strong>Saldo:</strong> Rp <span id="detailUserBalance"></span></p>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Detail Withdrawal</h4>
+                    <p style="margin: 5px 0;"><strong>Jumlah:</strong> Rp <span id="detailAmount"></span></p>
+                    <p style="margin: 5px 0;"><strong>E-Wallet:</strong> <span id="detailWalletType"></span></p>
+                    <p style="margin: 5px 0;"><strong>Nomor:</strong> <span id="detailWalletNumber"></span></p>
+                    <p style="margin: 5px 0;"><strong>Nama Rekening:</strong> <span id="detailAccountName"></span></p>
+                    <p style="margin: 5px 0;"><strong>Tanggal:</strong> <span id="detailDate"></span></p>
+                    <p style="margin: 5px 0;"><strong>Status:</strong> <span id="detailStatus" class="status-badge"></span></p>
+                </div>
+                
+                <div id="actionButtons" style="display: none;">
+                    <h4 style="margin-bottom: 10px; color: var(--dark);">Tindakan Admin</h4>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="action-btn reject" onclick="rejectWithdrawal()">
+                            <i class="fas fa-times"></i> Tolak
+                        </button>
+                        <button class="action-btn approve" onclick="approveWithdrawal()">
+                            <i class="fas fa-check"></i> Setujui
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-block" onclick="closeModal('withdrawalDetailModal')">
+                Tutup
+            </button>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Berhasil!</h3>
+                <button class="modal-close" onclick="closeModal('successModal')">&times;</button>
+            </div>
+            <div style="text-align: center; padding: 30px 0;">
+                <div style="width: 80px; height: 80px; background: var(--success); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem;">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h4 id="successMessage">Operasi berhasil!</h4>
+                <p style="color: var(--gray); margin-top: 10px;" id="successDetail">
+                    Perubahan telah disimpan.
+                </p>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="closeModal('successModal'); refreshData();">
+                Tutup
+            </button>
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="confirmTitle">Konfirmasi</h3>
+                <button class="modal-close" onclick="closeModal('confirmModal')">&times;</button>
+            </div>
+            <div style="padding: 30px 0;">
+                <p id="confirmMessage">Apakah Anda yakin?</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-outline btn-block" onclick="closeModal('confirmModal')">
+                    Batal
+                </button>
+                <button class="btn btn-primary btn-block" onclick="confirmAction()">
+                    Ya, Lanjutkan
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/auth.js"></script>
+    <script>
+        // Admin Variables
+        let currentAdmin = null;
+        let users = [];
+        let withdrawals = [];
+        let settings = {};
+        let pendingAction = null;
+        let pendingData = null;
+        
+        // Initialize Admin Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if admin is logged in
+            const userData = localStorage.getItem('ayoUndangUser');
+            if (!userData) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            currentAdmin = JSON.parse(userData);
+            if (!currentAdmin.isAdmin) {
+                alert('Akses ditolak. Halaman ini hanya untuk admin.');
+                window.location.href = 'dashboard.html';
+                return;
+            }
+            
+            // Load data
+            loadData();
+            
+            // Initialize navigation
+            initNavigation();
+        });
+        
+        // Load all data
+        function loadData() {
+            // Load users
+            users = JSON.parse(localStorage.getItem('ayoUndangUsers') || '[]');
+            
+            // Load withdrawals
+            withdrawals = JSON.parse(localStorage.getItem('ayoUndangWithdrawals') || '[]');
+            
+            // Load settings
+            settings = JSON.parse(localStorage.getItem('ayoUndangSettings') || '{}');
+            
+            // Update UI
+            updateDashboardStats();
+            loadUsersTable();
+            loadWithdrawalsTable();
+            loadRecentActivities();
+            loadSettingsForm();
+            populateUserSelect();
+        }
+        
+        // Initialize navigation
+        function initNavigation() {
+            const navItems = document.querySelectorAll('.admin-nav-item');
+            const sections = document.querySelectorAll('.admin-section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const sectionId = this.dataset.section;
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected section
+                    sections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(sectionId + 'Section').classList.add('active');
+                });
+            });
+        }
+        
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            // Total users (exclude admin)
+            const totalUsers = users.filter(u => !u.isAdmin).length;
+            document.getElementById('totalUsersCount').textContent = totalUsers;
+            
+            // Total withdrawals
+            document.getElementById('totalWithdrawalsCount').textContent = withdrawals.length;
+            
+            // Total payouts (success withdrawals)
+            const totalPayouts = withdrawals
+                .filter(w => w.status === 'success')
+                .reduce((sum, w) => sum + w.amount, 0);
+            document.getElementById('totalPayoutsAmount').textContent = formatCurrency(totalPayouts);
+            
+            // Pending withdrawals
+            const pendingWithdrawals = withdrawals.filter(w => w.status === 'pending').length;
+            document.getElementById('pendingWithdrawalsCount').textContent = pendingWithdrawals;
+            
+            // Load pending withdrawals table
+            loadPendingWithdrawalsTable();
+        }
+        
+        // Load users table
+        function loadUsersTable() {
+            const container = document.getElementById('usersTable');
+            const filteredUsers = users.filter(u => !u.isAdmin); // Exclude admin
+            
+            if (filteredUsers.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                            <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 15px; opacity: 0.5; display: block;"></i>
+                            <p>Belum ada pengguna terdaftar</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let html = '';
+            filteredUsers.forEach(user => {
+                html += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.phone}</td>
+                        <td>${user.username}</td>
+                        <td>Rp ${formatCurrency(user.balance || 0)}</td>
+                        <td>${user.referrals || 0}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="openEditUserModal(${user.id})">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="action-btn delete" onclick="confirmDeleteUser(${user.id})">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load withdrawals table
+        function loadWithdrawalsTable() {
+            const container = document.getElementById('withdrawalsTable');
+            
+            if (withdrawals.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                            <i class="fas fa-money-bill-wave" style="font-size: 2rem; margin-bottom: 15px; opacity: 0.5; display: block;"></i>
+                            <p>Belum ada riwayat withdrawal</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let html = '';
+            withdrawals.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(w => {
+                const statusClass = w.status === 'success' ? 'status-success' : 
+                                   w.status === 'pending' ? 'status-pending' : 'status-failed';
+                const statusText = w.status === 'success' ? 'SUKSES' : 
+                                  w.status === 'pending' ? 'PENDING' : 'DITOLAK';
+                
+                html += `
+                    <tr>
+                        <td>${w.id}</td>
+                        <td>${w.userName}</td>
+                        <td>Rp ${formatCurrency(w.amount)}</td>
+                        <td>${w.walletType.toUpperCase()}</td>
+                        <td>${w.date}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="viewWithdrawalDetail(${w.id})">
+                                    <i class="fas fa-eye"></i> Detail
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load pending withdrawals table
+        function loadPendingWithdrawalsTable() {
+            const container = document.getElementById('pendingWithdrawalsTable');
+            const pending = withdrawals.filter(w => w.status === 'pending');
+            
+            if (pending.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--gray);">
+                            <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 15px; opacity: 0.5; display: block;"></i>
+                            <p>Tidak ada withdrawal pending</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let html = '';
+            pending.forEach(w => {
+                html += `
+                    <tr>
+                        <td>${w.id}</td>
+                        <td>${w.userName}</td>
+                        <td>Rp ${formatCurrency(w.amount)}</td>
+                        <td>${w.walletType.toUpperCase()}</td>
+                        <td><span class="status-badge status-pending">PENDING</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="viewWithdrawalDetail(${w.id})">
+                                    <i class="fas fa-eye"></i> Review
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load recent activities
+        function loadRecentActivities() {
+            const container = document.getElementById('recentActivitiesTable');
+            
+            // Combine withdrawals and user registrations as activities
+            const activities = [];
+            
+            // Add withdrawal activities
+            withdrawals.slice(0, 10).forEach(w => {
+                activities.push({
+                    time: w.date,
+                    user: w.userName,
+                    activity: `Withdrawal ${w.status === 'success' ? 'sukses' : w.status === 'pending' ? 'pending' : 'ditolak'}`,
+                    detail: `Rp ${formatCurrency(w.amount)} ke ${w.walletType}`
+                });
+            });
+            
+            // Add user registration activities (simulated)
+            users.filter(u => !u.isAdmin).slice(0, 5).forEach(u => {
+                activities.push({
+                    time: u.joinDate || 'Baru saja',
+                    user: u.name,
+                    activity: 'Registrasi pengguna baru',
+                    detail: `Username: ${u.username}`
+                });
+            });
+            
+            // Sort by time (newest first)
+            activities.sort((a, b) => new Date(b.time) - new Date(a.time));
+            
+            let html = '';
+            activities.slice(0, 10).forEach(activity => {
+                html += `
+                    <tr>
+                        <td>${activity.time}</td>
+                        <td>${activity.user}</td>
+                        <td>${activity.activity}</td>
+                        <td>${activity.detail}</td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load settings form
+        function loadSettingsForm() {
+            document.getElementById('referralReward').value = settings.referralReward || 800;
+            document.getElementById('minWithdrawal').value = settings.minWithdrawal || 200;
+            document.getElementById('maxWithdrawal').value = settings.maxWithdrawal || 30000;
+            document.getElementById('contactEmail').value = settings.contactEmail || '';
+            document.getElementById('modalText').value = settings.modalText || '';
+        }
+        
+        // Populate user select
+        function populateUserSelect() {
+            const select = document.getElementById('userSelect');
+            const filteredUsers = users.filter(u => !u.isAdmin);
+            
+            select.innerHTML = '<option value="">-- Pilih Pengguna --</option>';
+            filteredUsers.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.textContent = `${user.name} (${user.phone}) - Saldo: Rp ${formatCurrency(user.balance || 0)}`;
+                select.appendChild(option);
+            });
+        }
+        
+        // Open add user modal
+        function openAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'flex';
+        }
+        
+        // Save new user
+        function saveNewUser() {
+            const name = document.getElementById('newUserName').value.trim();
+            const phone = document.getElementById('newUserPhone').value.trim();
+            const username = document.getElementById('newUserUsername').value.trim();
+            const password = document.getElementById('newUserPassword').value;
+            const balance = parseInt(document.getElementById('newUserBalance').value) || 0;
+            
+            // Validation
+            if (!name || !phone || !username || !password) {
+                alert('Harap isi semua field yang diperlukan');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password minimal 6 karakter');
+                return;
+            }
+            
+            // Check if username exists
+            if (users.some(u => u.username === username)) {
+                alert('Username sudah digunakan');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                phone: phone,
+                username: username,
+                password: password,
+                balance: balance,
+                referrals: 0,
+                referralCode: username.toUpperCase().substring(0, 3) + Math.floor(100 + Math.random() * 900),
+                joinDate: new Date().toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }),
+                walletType: '',
+                walletNumber: '',
+                accountName: '',
+                isAdmin: false
+            };
+            
+            // Add to users array
+            users.push(newUser);
+            localStorage.setItem('ayoUndangUsers', JSON.stringify(users));
+            
+            // Show success
+            showSuccess('Pengguna berhasil ditambahkan', `${name} telah ditambahkan ke sistem.`);
+            
+            // Close modal and reset form
+            closeModal('addUserModal');
+            resetAddUserForm();
+            
+            // Refresh data
+            refreshData();
+        }
+        
+        // Reset add user form
+        function resetAddUserForm() {
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserPhone').value = '';
+            document.getElementById('newUserUsername').value = '';
+            document.getElementById('newUserPassword').value = '';
+            document.getElementById('newUserBalance').value = '0';
+        }
+        
+        // Open edit user modal
+        function openEditUserModal(userId) {
+            const user = users.find(u => u.id == userId);
+            if (!user) return;
+            
+            document.getElementById('editUserId').value = user.id;
+            document.getElementById('editUserName').value = user.name;
+            document.getElementById('editUserPhone').value = user.phone;
+            document.getElementById('editUserUsername').value = user.username;
+            document.getElementById('editUserBalance').value = user.balance || 0;
+            document.getElementById('editUserReferrals').value = user.referrals || 0;
+            
+            document.getElementById('editUserModal').style.display = 'flex';
+        }
+        
+        // Update user
+        function updateUser() {
+            const userId = parseInt(document.getElementById('editUserId').value);
+            const userIndex = users.findIndex(u => u.id === userId);
+            
+            if (userIndex === -1) return;
+            
+            // Get updated values
+            users[userIndex].name = document.getElementById('editUserName').value.trim();
+            users[userIndex].phone = document.getElementById('editUserPhone').value.trim();
+            users[userIndex].username = document.getElementById('editUserUsername').value.trim();
+            users[userIndex].balance = parseInt(document.getElementById('editUserBalance').value) || 0;
+            users[userIndex].referrals = parseInt(document.getElementById('editUserReferrals').value) || 0;
+            
+            // Update password if provided
+            const newPassword = document.getElementById('editUserPassword').value;
+            if (newPassword) {
+                if (newPassword.length < 6) {
+                    alert('Password minimal 6 karakter');
+                    return;
+                }
+                users[userIndex].password = newPassword;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('ayoUndangUsers', JSON.stringify(users));
+            
+            // Show success
+            showSuccess('Pengguna berhasil diperbarui', 'Data pengguna telah disimpan.');
+            
+            // Close modal
+            closeModal('editUserModal');
+            
+            // Refresh data
+            refreshData();
+        }
+        
+        // Confirm delete user
+        function confirmDeleteUser(userId) {
+            const user = users.find(u => u.id == userId);
+            if (!user) return;
+            
+            pendingAction = 'deleteUser';
+            pendingData = userId;
+            
+            document.getElementById('confirmTitle').textContent = 'Hapus Pengguna';
+            document.getElementById('confirmMessage').textContent = 
+                `Apakah Anda yakin ingin menghapus pengguna "${user.name}"? Tindakan ini tidak dapat dibatalkan.`;
+            
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+        
+        // Delete user
+        function deleteUser() {
+            const userId = parseInt(document.getElementById('editUserId').value);
+            
+            // Remove user
+            users = users.filter(u => u.id !== userId);
+            localStorage.setItem('ayoUndangUsers', JSON.stringify(users));
+            
+            // Also remove user's withdrawals
+            withdrawals = withdrawals.filter(w => w.userId !== userId);
+            localStorage.setItem('ayoUndangWithdrawals', JSON.stringify(withdrawals));
+            
+            // Show success
+            showSuccess('Pengguna berhasil dihapus', 'Pengguna telah dihapus dari sistem.');
+            
+            // Close modal
+            closeModal('editUserModal');
+            
+            // Refresh data
+            refreshData();
+        }
+        
+        // View withdrawal detail
+        function viewWithdrawalDetail(withdrawalId) {
+            const withdrawal = withdrawals.find(w => w.id == withdrawalId);
+            if (!withdrawal) return;
+            
+            const user = users.find(u => u.id == withdrawal.userId);
+            
+            // Fill detail fields
+            document.getElementById('detailWithdrawalId').value = withdrawal.id;
+            document.getElementById('detailUserName').textContent = withdrawal.userName;
+            document.getElementById('detailUserPhone').textContent = user?.phone || '-';
+            document.getElementById('detailUserBalance').textContent = formatCurrency(user?.balance || 0);
+            document.getElementById('detailAmount').textContent = formatCurrency(withdrawal.amount);
+            document.getElementById('detailWalletType').textContent = withdrawal.walletType.toUpperCase();
+            document.getElementById('detailWalletNumber').textContent = withdrawal.walletNumber;
+            document.getElementById('detailAccountName').textContent = withdrawal.accountName;
+            document.getElementById('detailDate').textContent = withdrawal.date;
+            
+            // Set status badge
+            const statusBadge = document.getElementById('detailStatus');
+            statusBadge.className = 'status-badge';
+            statusBadge.classList.add(`status-${withdrawal.status}`);
+            statusBadge.textContent = withdrawal.status === 'success' ? 'SUKSES' : 
+                                      withdrawal.status === 'pending' ? 'PENDING' : 'DITOLAK';
+            
+            // Show action buttons only for pending withdrawals
+            const actionButtons = document.getElementById('actionButtons');
+            if (withdrawal.status === 'pending') {
+                actionButtons.style.display = 'block';
+            } else {
+                actionButtons.style.display = 'none';
+            }
+            
+            document.getElementById('withdrawalDetailModal').style.display = 'flex';
+        }
+        
+        // Approve withdrawal
+        function approveWithdrawal() {
+            const withdrawalId = parseInt(document.getElementById('detailWithdrawalId').value);
+            const withdrawalIndex = withdrawals.findIndex(w => w.id === withdrawalId);
+            
+            if (withdrawalIndex === -1) return;
+            
+            // Update status
+            withdrawals[withdrawalIndex].status = 'success';
+            localStorage.setItem('ayoUndangWithdrawals', JSON.stringify(withdrawals));
+            
+            // Show success
+            showSuccess('Withdrawal disetujui', 'Saldo telah dikirim ke pengguna.');
+            
+            // Close modal
+            closeModal('withdrawalDetailModal');
+            
+            // Refresh data
+            refreshData();
+        }
+        
+        // Reject withdrawal
+        function rejectWithdrawal() {
+            const withdrawalId = parseInt(document.getElementById('detailWithdrawalId').value);
+            const withdrawalIndex = withdrawals.findIndex(w => w.id === withdrawalId);
+            
+            if (withdrawalIndex === -1) return;
+            
+            // Return balance to user
+            const withdrawal = withdrawals[withdrawalIndex];
+            const userIndex = users.findIndex(u => u.id === withdrawal.userId);
+            
+            if (userIndex !== -1) {
+                users[userIndex].balance += withdrawal.amount;
+                localStorage.setItem('ayoUndangUsers', JSON.stringify(users));
+            }
+            
+            // Update status
+            withdrawals[withdrawalIndex].status = 'failed';
+            localStorage.setItem('ayoUndangWithdrawals', JSON.stringify(withdrawals));
+            
+            // Show success
+            showSuccess('Withdrawal ditolak', 'Saldo telah dikembalikan ke pengguna.');
+            
+            // Close modal
+            closeModal('withdrawalDetailModal');
+            
+            // Refresh data
+            refreshData();
+        }
+        
+        // Save settings
+        function saveSettings() {
+            const newSettings = {
+                referralReward: parseInt(document.getElementById('referralReward').value) || 800,
+                minWithdrawal: parseInt(document.getElementById('minWithdrawal').value) || 200,
+                maxWithdrawal: parseInt(document.getElementById('maxWithdrawal').value) || 30000,
+                contactEmail: document.getElementById('contactEmail').value.trim(),
+                modalText: document.getElementById('modalText').value.trim()
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('ayoUndangSettings', JSON.stringify(newSettings));
+            settings = newSettings;
+            
+            // Show success
+            showSuccess('Pengaturan disimpan', 'Perubahan pengaturan telah disimpan.');
+        }
+        
+        // Add balance to user
+        function addUserBalance() {
+            const userId = parseInt(document.getElementById('userSelect').value);
+            const amount = parseInt(document.getElementById('addBalanceAmount').value);
+            const note = document.getElementById('addBalanceNote').value.trim();
+            
+            if (!userId || !amount || amount <= 0) {
+                alert('Pilih pengguna dan masukkan jumlah yang valid');
+                return;
+            }
+            
+            const userIndex = users.findIndex(u => u.id === userId);
+            if (userIndex === -1) {
+                alert('Pengguna tidak ditemukan');
+                return;
+            }
+            
+            // Add balance
+            users[userIndex].balance += amount;
+            localStorage.setItem('ayoUndangUsers', JSON.stringify(users));
+            
+            // Show success
+            const userName = users[userIndex].name;
+            showSuccess('Saldo ditambahkan', `Rp ${formatCurrency(amount)} telah ditambahkan ke ${userName}.`);
+            
+            // Reset form
+            document.getElementById('addBalanceAmount').value = '';
+            document.getElementById('addBalanceNote').value = '';
+            
+            // Refresh data
+            refreshData();
+        }
+        
+        // Search users
+        function searchUsers(query) {
+            const filteredUsers = users.filter(u => 
+                !u.isAdmin && (
+                    u.name.toLowerCase().includes(query.toLowerCase()) ||
+                    u.phone.includes(query) ||
+                    u.username.toLowerCase().includes(query.toLowerCase())
+                )
+            );
+            
+            const container = document.getElementById('usersTable');
+            if (filteredUsers.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 15px; opacity: 0.5; display: block;"></i>
+                            <p>Tidak ditemukan pengguna dengan kata kunci "${query}"</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let html = '';
+            filteredUsers.forEach(user => {
+                html += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.phone}</td>
+                        <td>${user.username}</td>
+                        <td>Rp ${formatCurrency(user.balance || 0)}</td>
+                        <td>${user.referrals || 0}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="openEditUserModal(${user.id})">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="action-btn delete" onclick="confirmDeleteUser(${user.id})">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Search withdrawals
+        function searchWithdrawals(query) {
+            const filteredWithdrawals = withdrawals.filter(w => 
+                w.userName.toLowerCase().includes(query.toLowerCase()) ||
+                w.walletType.toLowerCase().includes(query.toLowerCase()) ||
+                w.amount.toString().includes(query) ||
+                w.status.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            const container = document.getElementById('withdrawalsTable');
+            if (filteredWithdrawals.length === 0) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 15px; opacity: 0.5; display: block;"></i>
+                            <p>Tidak ditemukan withdrawal dengan kata kunci "${query}"</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let html = '';
+            filteredWithdrawals.forEach(w => {
+                const statusClass = w.status === 'success' ? 'status-success' : 
+                                   w.status === 'pending' ? 'status-pending' : 'status-failed';
+                const statusText = w.status === 'success' ? 'SUKSES' : 
+                                  w.status === 'pending' ? 'PENDING' : 'DITOLAK';
+                
+                html += `
+                    <tr>
+                        <td>${w.id}</td>
+                        <td>${w.userName}</td>
+                        <td>Rp ${formatCurrency(w.amount)}</td>
+                        <td>${w.walletType.toUpperCase()}</td>
+                        <td>${w.date}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn edit" onclick="viewWithdrawalDetail(${w.id})">
+                                    <i class="fas fa-eye"></i> Detail
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Refresh data
+        function refreshData() {
+            loadData();
+        }
+        
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Show success modal
+        function showSuccess(title, detail) {
+            document.getElementById('successMessage').textContent = title;
+            document.getElementById('successDetail').textContent = detail;
+            document.getElementById('successModal').style.display = 'flex';
+        }
+        
+        // Confirm action
+        function confirmAction() {
+            if (pendingAction === 'deleteUser') {
+                const userId = pendingData;
+                users = users.filter(u => u.id !== userId);
+                localStorage.setItem('ayoUndangUsers', JSON.stringify(users));
+                
+                // Also remove user's withdrawals
+                withdrawals = withdrawals.filter(w => w.userId !== userId);
+                localStorage.setItem('ayoUndangWithdrawals', JSON.stringify(withdrawals));
+                
+                showSuccess('Pengguna dihapus', 'Pengguna telah dihapus dari sistem.');
+            }
+            
+            closeModal('confirmModal');
+            pendingAction = null;
+            pendingData = null;
+            refreshData();
+        }
+        
+        // Format currency
+        function formatCurrency(amount) {
+            return amount.toLocaleString('id-ID');
+        }
+        
+        // Admin logout
+        function adminLogout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                localStorage.removeItem('ayoUndangUser');
+                localStorage.removeItem('ayoUndangIsAdmin');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

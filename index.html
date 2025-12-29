@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyoUndang - Undang Teman Dapat Hadiah</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Memuat Aplikasi...</h2>
+        </div>
+    </div>
+
+    <!-- Welcome Modal -->
+    <div id="welcomeModal" class="modal-overlay">
+        <div class="modal welcome-modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🎉 Selamat Datang di AyoUndang! 🎉</h2>
+                <button class="modal-close" onclick="closeWelcomeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="welcome-content">
+                    <div class="welcome-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3>Dapatkan Uang Tunai dengan Mudah!</h3>
+                    <p>Undang teman Anda untuk bergabung dan dapatkan <strong>Rp800 per orang</strong> langsung ke saldo Anda!</p>
+                    
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-user-plus"></i>
+                            <div>
+                                <h4>Undang Teman</h4>
+                                <p>Bagikan kode referral Anda</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div>
+                                <h4>Dapatkan Hadiah</h4>
+                                <p>Rp800 per teman yang bergabung</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-wallet"></i>
+                            <div>
+                                <h4>Tarik Saldo</h4>
+                                <p>Tarik kapan saja ke e-wallet favorit</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="highlight-text">
+                        <i class="fas fa-bolt"></i> 
+                        <strong>Mulai sekarang dan raih penghasilan tambahan!</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-block" onclick="startEarning()">
+                    <i class="fas fa-rocket"></i> Mulai Dapatkan Hadiah!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content" style="display: none;">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <div class="logo">
+                        <i class="fas fa-gift"></i>
+                        <span>AyoUndang</span>
+                    </div>
+                </div>
+                <div class="nav-actions">
+                    <button id="loginBtn" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button id="registerBtn" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Daftar
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Undang Teman,<br>
+                        <span class="gradient-text">Dapatkan Hadiah Uang Tunai!</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Setiap teman yang berhasil Anda undang akan memberi Anda 
+                        <span class="highlight">Rp800</span> langsung ke saldo. 
+                        Mudah, cepat, dan pasti bayar! 🤑💸🔥
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalUsers">1,234</div>
+                            <div class="stat-label">Pengguna Aktif</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">Rp <span id="totalPayouts">5,678,900</span></div>
+                            <div class="stat-label">Sudah Dibayarkan</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalReferrals">8,912</div>
+                            <div class="stat-label">Teman Berhasil Diundang</div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg" onclick="goToRegister()">
+                            <i class="fas fa-bolt"></i> Daftar Sekarang - Gratis!
+                        </button>
+                        <button class="btn btn-outline btn-lg" onclick="scrollToHowItWorks()">
+                            <i class="fas fa-play-circle"></i> Cara Kerja
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="illustration">
+                        <div class="phone-mockup">
+                            <div class="phone-screen">
+                                <div class="app-screen">
+                                    <div class="app-balance">
+                                        <div>Saldo Anda</div>
+                                        <div class="balance-amount">Rp 1.250.000</div>
+                                    </div>
+                                    <div class="app-referral">
+                                        <div class="referral-code">Kode: AYO123</div>
+                                        <div class="referral-earnings">+ Rp800 per teman</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section id="howItWorks" class="how-it-works">
+            <div class="section-header">
+                <h2 class="section-title">Cara Mendapatkan Hadiah</h2>
+                <p class="section-subtitle">Hanya 3 langkah mudah untuk mulai mendapatkan uang</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3 class="step-title">Daftar Gratis</h3>
+                    <p class="step-description">
+                        Buat akun Anda dalam 1 menit. Tidak perlu biaya apapun!
+                    </p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3 class="step-title">Bagikan Kode Referral</h3>
+                    <p class="step-description">
+                        Bagikan kode unik Anda ke teman melalui WhatsApp, Instagram, atau media sosial lainnya.
+                    </p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="step-title">Dapatkan Rp800 per Orang</h3>
+                    <p class="step-description">
+                        Setiap teman yang mendaftar dengan kode Anda memberi Anda Rp800 langsung ke saldo!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials">
+            <div class="section-header">
+                <h2 class="section-title">Apa Kata Pengguna?</h2>
+                <p class="section-subtitle">Bukti nyata dari mereka yang sudah mendapatkan hadiah</p>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <h4>Budi Santoso</h4>
+                            <p class="user-role">Mahasiswa</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Dalam 2 minggu saya sudah dapat Rp240.000 dari 30 teman yang saya undang. 
+                        Uangnya langsung bisa ditarik ke GoPay!"
+                    </p>
+                    <div class="testimonial-earnings">
+                        <span class="earning-amount">+ Rp240.000</span>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <h4>Sari Dewi</h4>
+                            <p class="user-role">Ibu Rumah Tangga</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Sempurna untuk tambahan uang belanja. Saya undang teman-teman grup arisan, 
+                        sekarang saldo saya sudah Rp800.000!"
+                    </p>
+                    <div class="testimonial-earnings">
+                        <span class="earning-amount">+ Rp800.000</span>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <h4>Andi Pratama</h4>
+                            <p class="user-role">Freelancer</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Prosesnya cepat dan transparan. Penarikan ke DANA hanya butuh 1 hari kerja. 
+                        Recommended banget!"
+                    </p>
+                    <div class="testimonial-earnings">
+                        <span class="earning-amount">+ Rp1.200.000</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2 class="cta-title">Mulai Dapatkan Penghasilan Tambahan Sekarang!</h2>
+                <p class="cta-subtitle">
+                    Bergabunglah dengan ribuan pengguna yang sudah mendapatkan uang tunai dari AyoUndang
+                </p>
+                <div class="cta-actions">
+                    <button class="btn btn-primary btn-xl" onclick="goToRegister()">
+                        <i class="fas fa-gift"></i> DAFTAR GRATIS - DAPATKAN Rp800 PERTAMA
+                    </button>
+                    <p class="cta-note">
+                        <i class="fas fa-shield-alt"></i> 100% Aman & Terpercaya • Tidak Ada Biaya Pendaftaran
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-gift"></i>
+                        <span>AyoUndang</span>
+                    </div>
+                    <p class="footer-description">
+                        Platform undang teman terpercaya untuk mendapatkan hadiah uang tunai.
+                        Dapatkan Rp800 untuk setiap teman yang berhasil Anda undang!
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Tautan Cepat</h4>
+                    <ul class="footer-links">
+                        <li><a href="/login.html">Login</a></li>
+                        <li><a href="/dashboard.html">Dashboard</a></li>
+                        <li><a href="/admin.html">Admin</a></li>
+                        <li><a href="#howItWorks">Cara Kerja</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">E-Wallet Support</h4>
+                    <div class="ewallet-logos">
+                        <span class="ewallet-logo">DANA</span>
+                        <span class="ewallet-logo">OVO</span>
+                        <span class="ewallet-logo">GoPay</span>
+                        <span class="ewallet-logo">ShopeePay</span>
+                        <span class="ewallet-logo">LinkAja</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AyoUndang. Semua hak dilindungi undang-undang.</p>
+                <p>
+                    <a href="#">Kebijakan Privasi</a> • 
+                    <a href="#">Syarat & Ketentuan</a> • 
+                    <a href="#">Bantuan</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Simulasi loading
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            
+            // Tampilkan modal welcome untuk pengunjung baru
+            if(!localStorage.getItem('hasSeenWelcome')) {
+                setTimeout(() => {
+                    document.getElementById('welcomeModal').style.display = 'flex';
+                }, 1000);
+            }
+        }, 1500);
+
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+            localStorage.setItem('hasSeenWelcome', 'true');
+        }
+
+        function startEarning() {
+            closeWelcomeModal();
+            window.location.href = 'login.html';
+        }
+
+        function goToRegister() {
+            window.location.href = 'login.html?tab=register';
+        }
+
+        function scrollToHowItWorks() {
+            document.getElementById('howItWorks').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Update stats dengan animasi
+        function animateCounter(elementId, finalValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            const start = 0;
+            const increment = finalValue / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= finalValue) {
+                    element.textContent = finalValue.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Animate stats on scroll
+        window.addEventListener('scroll', function() {
+            const statsSection = document.querySelector('.hero-stats');
+            const sectionPos = statsSection.getBoundingClientRect().top;
+            const screenPos = window.innerHeight / 1.3;
+            
+            if (sectionPos < screenPos) {
+                animateCounter('totalUsers', 1234);
+                animateCounter('totalPayouts', 5678900);
+                animateCounter('totalReferrals', 8912);
+            }
+        });
+    </script>
+</body>
+</html>
