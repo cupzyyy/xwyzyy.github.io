@@ -1,0 +1,157 @@
+/* Responsive Design Extensions */
+
+/* Tablet Devices (768px - 1024px) */
+@media (max-width: 1024px) {
+    .phone-mockup {
+        width: 250px;
+        height: 500px;
+    }
+    
+    .balance-amount {
+        font-size: 2rem;
+    }
+    
+    .referral-code {
+        font-size: 1.2rem;
+    }
+}
+
+/* Mobile Devices (480px - 768px) */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 15px;
+        height: 60px;
+    }
+    
+    .logo span {
+        font-size: 1.2rem;
+    }
+    
+    .hero-section {
+        padding: 40px 15px;
+    }
+    
+    .section-header {
+        margin-bottom: 30px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .how-it-works,
+    .testimonials,
+    .cta-section {
+        padding: 60px 15px;
+    }
+    
+    .feature-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .feature-item i {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .modal {
+        margin: 10px;
+    }
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .step {
+        padding: 30px 15px;
+    }
+    
+    .step-icon {
+        font-size: 2.5rem;
+    }
+    
+    .testimonial {
+        padding: 20px;
+    }
+    
+    .cta-title {
+        font-size: 1.8rem;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-lg {
+        padding: 14px 28px;
+    }
+    
+    .btn-xl {
+        padding: 16px 32px;
+        font-size: 1rem;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --light: #0f172a;
+        --dark: #f8fafc;
+        --gray: #94a3b8;
+        --light-gray: #1e293b;
+        --border: #334155;
+    }
+    
+    .hero-section {
+        background: linear-gradient(135deg, #0c4a6e 0%, #1e40af 100%);
+    }
+    
+    .step {
+        background: #1e293b;
+    }
+    
+    .testimonial {
+        background: #1e293b;
+    }
+    
+    .how-it-works {
+        background: #0f172a;
+    }
+    
+    .footer-bottom {
+        border-top-color: #334155;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .main-nav,
+    .hero-actions,
+    .cta-actions,
+    .main-footer {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .hero-section {
+        background: none;
+        padding: 20px 0;
+    }
+      }
