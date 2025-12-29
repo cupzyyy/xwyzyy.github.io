@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "userName": "Budi Santoso",
+    "amount": 200,
+    "walletType": "dana",
+    "walletNumber": "081234567890",
+    "accountName": "Budi Santoso",
+    "status": "success",
+    "date": "12 Jan 2023, 14:30"
+  },
+  {
+    "id": 2,
+    "userId": 1,
+    "userName": "Budi Santoso",
+    "amount": 15000,
+    "walletType": "ovo",
+    "walletNumber": "081234567890",
+    "accountName": "Budi Santoso",
+    "status": "pending",
+    "date": "10 Jan 2023, 09:15"
+  },
+  {
+    "id": 3,
+    "userId": 2,
+    "userName": "Siti Rahayu",
+    "amount": 2000,
+    "walletType": "gopay",
+    "walletNumber": "081298765432",
+    "accountName": "Siti Rahayu",
+    "status": "success",
+    "date": "5 Jan 2023, 16:45"
+  }
+]

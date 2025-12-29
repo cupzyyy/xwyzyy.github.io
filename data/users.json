@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "phone": "081234567890",
+    "username": "user1",
+    "password": "password123",
+    "name": "Budi Santoso",
+    "balance": 15000,
+    "referrals": 5,
+    "referralCode": "BUDI123",
+    "joinDate": "Jan 2023",
+    "walletType": "dana",
+    "walletNumber": "081234567890",
+    "accountName": "Budi Santoso",
+    "isAdmin": false,
+    "hasSeenWelcome": true
+  },
+  {
+    "id": 2,
+    "phone": "081298765432",
+    "username": "user2",
+    "password": "password123",
+    "name": "Siti Rahayu",
+    "balance": 8000,
+    "referrals": 3,
+    "referralCode": "SITI456",
+    "joinDate": "Feb 2023",
+    "walletType": "ovo",
+    "walletNumber": "081298765432",
+    "accountName": "Siti Rahayu",
+    "isAdmin": false,
+    "hasSeenWelcome": true
+  },
+  {
+    "id": 99,
+    "phone": "081234567899",
+    "username": "admin",
+    "password": "admin123",
+    "name": "Administrator",
+    "balance": 0,
+    "referrals": 0,
+    "referralCode": "ADMIN99",
+    "joinDate": "Jan 2023",
+    "walletType": "",
+    "walletNumber": "",
+    "accountName": "",
+    "isAdmin": true,
+    "hasSeenWelcome": true
+  }
+]
