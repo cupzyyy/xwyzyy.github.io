@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    
+    - name: Create data directory
+      run: |
+        mkdir -p data
+        echo '[]' > data/users.json
+        echo '[]' > data/withdrawals.json
+        echo '{"referralReward":800,"modalText":"Selamat datang di AyoUndang!"}' > data/settings.json
+    
+    - name: Create assets directories
+      run: |
+        mkdir -p assets/css
+        mkdir -p assets/js
+        mkdir -p assets/images
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        publish_branch: gh-pages
