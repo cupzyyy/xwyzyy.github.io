@@ -1,0 +1,8 @@
+{
+  "referralReward": 800,
+  "modalText": "Selamat datang di AyoUndang! Undang teman Anda dan dapatkan hadiah uang tunai. Setiap teman yang berhasil Anda undang akan memberi Anda Rp800 langsung ke saldo.",
+  "minWithdrawal": 200,
+  "maxWithdrawal": 30000,
+  "contactEmail": "support@ayoundang.com",
+  "contactPhone": "081234567890"
+}
